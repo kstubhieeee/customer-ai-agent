@@ -6,7 +6,7 @@ from requests.exceptions import Timeout, RequestException
 
 load_dotenv()
 
-# Load configuration from environment variables
+
 BASE_API_URL = os.getenv("BASE_API_URL")
 LANGFLOW_ID = os.getenv("LANGFLOW_ID")
 FLOW_ID = os.getenv("FLOW_ID")
@@ -51,7 +51,7 @@ def run_flow(message: str) -> dict:
         response.raise_for_status()
         response_data = response.json()
         
-        # Extract the message text from the nested structure
+        
         if (response_data 
             and 'outputs' in response_data 
             and len(response_data['outputs']) > 0 
@@ -62,13 +62,13 @@ def run_flow(message: str) -> dict:
             
             message_data = response_data['outputs'][0]['outputs'][0]['results']['message']
             
-            # First try to get text directly if it's not an agent message
+           
             if 'text' in message_data:
                 text = message_data['text']
                 if not text.startswith('Agent') and not text.startswith('{'):
                     return text
             
-            # If that fails, try to get the response from content blocks
+            
             if 'content_blocks' in message_data:
                 for block in message_data['content_blocks']:
                     if 'contents' in block:
@@ -78,7 +78,7 @@ def run_flow(message: str) -> dict:
                                 and 'text' in content):
                                 return content['text']
             
-            # If we still haven't found a response, try artifacts
+           
             if ('artifacts' in response_data['outputs'][0]['outputs'][0] 
                 and 'message' in response_data['outputs'][0]['outputs'][0]['artifacts']):
                 return response_data['outputs'][0]['outputs'][0]['artifacts']['message']
@@ -104,18 +104,18 @@ def run_flow(message: str) -> dict:
 def main():
     st.title("Chat Interface")
     
-    # Initialize chat history
+   
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # Display chat history
+    
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
     
-    # Chat input
+    
     if prompt := st.chat_input("Ask something..."):
-        # Add user message to chat history
+        
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
@@ -125,7 +125,7 @@ def main():
                 with st.spinner("Thinking..."):
                     response = run_flow(prompt)
                     st.markdown(response)
-                    # Add assistant response to chat history
+                    
                     st.session_state.messages.append({"role": "assistant", "content": response})
         except Exception as e:
             st.error(f"Error: {str(e)}")
