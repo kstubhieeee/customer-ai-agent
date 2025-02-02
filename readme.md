@@ -2,17 +2,6 @@
 
 A Streamlit-powered chat interface that uses Langflow API to provide automated customer service responses. This AI agent can handle queries about orders, shipping, returns, and general customer service inquiries.
 
-## 🌟 Features
-
-- 💬 Real-time chat interface
-- 🔄 Persistent chat history
-- 🚢 Shipping information queries
-- 📦 Order status lookups
-- ↩️ Return policy information
-- 🛍️ Product details
-- ⚡ Fast response times
-- 🔒 Secure API handling
-
 ## 🚀 Quick Start
 
 ### Prerequisites
